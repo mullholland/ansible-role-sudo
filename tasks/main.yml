@@ -1,0 +1,79 @@
+---
+
+- name: Include distribution specific variables
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+    - '{{ ansible_distribution }}.yml'
+    - '{{ ansible_os_family }}.yml'
+    - '{{ ansible_system }}.yml'
+    - 'default.yml'
+
+- name: Installing package
+  ansible.builtin.package:
+    name: "{{ sudo_package }}"
+    state: present
+
+- name: "Creating sudoers configuration in /etc/sudoers.d/defaults"
+  ansible.builtin.template:
+    src: "etc/sudoers.d/defaults.j2"
+    dest: "/etc/sudoers.d/defaults"
+    validate: "visudo -cf %s"
+    owner: "root"
+    group: "root"
+    mode: "0440"
+  when: sudo_sudoers | length > 0
+
+
+- name: "Creating sudoers configuration in /etc/sudoers.d/users"
+  ansible.builtin.template:
+    src: "etc/sudoers.d/users.j2"
+    dest: "/etc/sudoers.d/users"
+    validate: "visudo -cf %s"
+    owner: "root"
+    group: "root"
+    mode: "0440"
+  when: sudo_sudoers | length > 0
+
+- name: "Creating aliases configuration in /etc/sudoers.d/aliases"
+  ansible.builtin.template:
+    src: "etc/sudoers.d/aliases.j2"
+    dest: "/etc/sudoers.d/aliases"
+    validate: "visudo -cf %s"
+    owner: "root"
+    group: "root"
+    mode: "0440"
+  when: sudo_aliases | length > 0
+
+- name: "Creating aliases configuration in /etc/sudoers.d/groups"
+  ansible.builtin.template:
+    src: "etc/sudoers.d/groups.j2"
+    dest: "/etc/sudoers.d/groups"
+    validate: "visudo -cf %s"
+    owner: "root"
+    group: "root"
+    mode: "0440"
+  when: sudo_groups | length > 0
+
+- name: "List files in /etc/sudoers.d/"
+  ansible.builtin.find:
+    paths: "/etc/sudoers.d/"
+    patterns: "*"
+  register: sudoers_files
+  changed_when: false
+  when:
+    - sudo_manage_exclusive | bool
+
+- name: "Cleanup unmanaged /etc/sudoers.d/ files"
+  ansible.builtin.file:
+    path: "/etc/sudoers.d/{{ item.path|basename }}"
+    state: absent
+  loop: "{{ sudoers_files.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+  when:
+    - sudo_manage_exclusive | bool
+    - (item.path|basename) != "users"
+    - (item.path|basename) != "aliases"
+    - (item.path|basename) != "groups"
+    - (item.path|basename) != "defaults"

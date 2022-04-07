@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+{% for group in sudo_groups %}
+#######################################
+# {{ group.name }}
+#######################################
+{% for command in group.commands %}
+{{ group.name }} {{ command.hosts | default('ALL') }}=({{ command.as }}) {{ "NOPASSWD:" if command.nopasswd | default(false) else "" }} {{ command.command }}
+{% endfor %}
+
+{% endfor %}

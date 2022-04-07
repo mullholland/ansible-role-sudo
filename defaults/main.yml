@@ -1,0 +1,56 @@
+---
+# package name
+sudo_package: sudo
+
+# manage sudoers files and delete unknown files
+sudo_manage_exclusive: true
+
+sudo_defaults: []
+# - 'env_reset'
+# - 'mail_badpass'
+# - 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+
+# hosts - as - command
+# *user1* ALL=(ALL:ALL) ALL  =>  The first field indicates the username that the rule will apply to (user1)
+# user1 *ALL*=(ALL:ALL) ALL  =>  The first “ALL” indicates that this rule applies to all hosts.
+# user1 ALL=(*ALL*:ALL) ALL  =>  This “ALL” indicates that the user1 user can run commands as all users.
+# user1 ALL=(ALL:*ALL*) ALL  =>  This “ALL” indicates that the user1 user can run commands as all groups.
+# user1 ALL=(ALL:ALL) *ALL*  =>  The last “ALL” indicates these rules apply to all commands.
+sudo_sudoers: []
+# - name: user1
+#   commands: []  # optional
+#   # - hosts: "ALL"  # optional => default "ALL"
+#   #   as: "ALL:ALL"  # optional => default "ALL:ALL"
+#   #   command: ALL  # required
+#   #   nopasswd: false  # optional => default "false"
+
+# Aliases
+# names must start with a capital letter
+# type maybe:
+#  - host  => for Host Aliases
+#  - user  => for User Aliases
+#  - runas => for Runas Aliases
+#  - cmnd  => for Command Aliases
+#
+# type name = alias
+sudo_aliases: []
+# - name: "GROUPONE"
+#   type: "user"
+#   alias: "user1, user2, user3"
+# - name: "SANDBOX"
+#   type: "host"
+#   alias: "devhost1, devhost2"
+# - name: "WEB"
+#   type: "runas"
+#   alias: "www-data, apache"
+# - name: "POWER"
+#   type: "cmnd"
+#   alias: "/sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/restart"
+
+sudo_groups:
+# - name: sudouser
+#   commands: []  # optional
+#   # - hosts: "ALL"  # optional => default "ALL"
+#   #   as: "ALL:ALL"  # optional => default "ALL:ALL"
+#   #   command: ALL  # required
+#   #   nopasswd: false  # optional => default "false"

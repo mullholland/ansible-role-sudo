@@ -1,0 +1,49 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    sudo_defaults:
+      - 'env_reset'
+      - 'mail_badpass'
+      - 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+
+    sudo_sudoers:
+      - name: user1
+        commands:
+          - hosts: "ALL"
+            as: "ALL:ALL"
+            command: "ALL"
+            nopasswd: false
+      - name: user2
+        commands:
+          - hosts: "ALL"
+            as: "ALL:ALL"
+            command: "ALL"
+            nopasswd: false
+
+    sudo_aliases:
+      - name: "GROUPONE"
+        type: "user"
+        alias: "user1, user2, user3"
+      - name: "SANDBOX"
+        type: "host"
+        alias: "devhost1, devhost2"
+      - name: "WEB"
+        type: "runas"
+        alias: "www-data, apache"
+      - name: "POWER"
+        type: "cmnd"
+        alias: "/sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/restart"
+
+    sudo_groups:
+      - name: sudogroup
+        commands:
+          - hosts: "ALL"
+            as: "ALL:ALL"
+            command: "ALL"
+            nopasswd: false
+
+  roles:
+    - role: "ansible-role-sudo"

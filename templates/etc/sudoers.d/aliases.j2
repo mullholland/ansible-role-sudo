@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+{% for alias in sudo_aliases %}
+{% if alias.type == "host" %}
+Host_Alias {{ alias.name }} = {{ alias.alias }}
+{% endif %}
+{% if alias.type == "user" %}
+User_Alias {{ alias.name }} = {{ alias.alias }}
+{% endif %}
+{% if alias.type == "runas" %}
+Runas_Alias {{ alias.name }} = {{ alias.alias }}
+{% endif %}
+{% if alias.type == "cmnd" %}
+Cmnd_Alias {{ alias.name }} = {{ alias.alias }}
+{% endif %}
+{% endfor %}

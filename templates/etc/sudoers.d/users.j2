@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+{% for user in sudo_sudoers %}
+#######################################
+# {{ user.name }}
+#######################################
+{% for command in user.commands %}
+{{ user.name }} {{ command.hosts | default('ALL') }}=({{ command.as }}) {{ "NOPASSWD:" if command.nopasswd | default(false) else "" }} {{ command.command }}
+{% endfor %}
+
+{% endfor %}
