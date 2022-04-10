@@ -22,8 +22,6 @@
     owner: "root"
     group: "root"
     mode: "0440"
-  when: sudo_sudoers | length > 0
-
 
 - name: "Creating sudoers configuration in /etc/sudoers.d/users"
   ansible.builtin.template:
@@ -33,7 +31,6 @@
     owner: "root"
     group: "root"
     mode: "0440"
-  when: sudo_sudoers | length > 0
 
 - name: "Creating aliases configuration in /etc/sudoers.d/aliases"
   ansible.builtin.template:
@@ -43,7 +40,6 @@
     owner: "root"
     group: "root"
     mode: "0440"
-  when: sudo_aliases | length > 0
 
 - name: "Creating aliases configuration in /etc/sudoers.d/groups"
   ansible.builtin.template:
@@ -53,7 +49,6 @@
     owner: "root"
     group: "root"
     mode: "0440"
-  when: sudo_groups | length > 0
 
 - name: "List files in /etc/sudoers.d/"
   ansible.builtin.find:

@@ -59,7 +59,7 @@ sudo_aliases: []
 #   type: "cmnd"
 #   alias: "/sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/restart"
 
-sudo_groups:
+sudo_groups: []
 # - name: sudouser
 #   commands: []  # optional
 #   # - hosts: "ALL"  # optional => default "ALL"
