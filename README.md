@@ -59,7 +59,7 @@ sudo_aliases: []
 #   type: "cmnd"
 #   alias: "/sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/restart"
 
-sudo_groups:
+sudo_groups: []
 # - name: sudouser
 #   commands: []  # optional
 #   # - hosts: "ALL"  # optional => default "ALL"
@@ -98,27 +98,8 @@ This example is taken from `molecule/default/converge.yml` and is tested on each
             command: "ALL"
             nopasswd: false
 
-    sudo_aliases:
-      - name: "GROUPONE"
-        type: "user"
-        alias: "user1, user2, user3"
-      - name: "SANDBOX"
-        type: "host"
-        alias: "devhost1, devhost2"
-      - name: "WEB"
-        type: "runas"
-        alias: "www-data, apache"
-      - name: "POWER"
-        type: "cmnd"
-        alias: "/sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/restart"
-
-    sudo_groups:
-      - name: sudogroup
-        commands:
-          - hosts: "ALL"
-            as: "ALL:ALL"
-            command: "ALL"
-            nopasswd: false
+    sudo_aliases: []
+    sudo_groups: []
 
   roles:
     - role: "mullholland.sudo"
