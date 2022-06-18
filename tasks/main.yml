@@ -61,7 +61,7 @@
 
 - name: "Cleanup unmanaged /etc/sudoers.d/ files"
   ansible.builtin.file:
-    path: "/etc/sudoers.d/{{ item.path|basename }}"
+    path: "/etc/sudoers.d/{{ item.path | basename }}"
     state: absent
   loop: "{{ sudoers_files.files }}"
   loop_control:
