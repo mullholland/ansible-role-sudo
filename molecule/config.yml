@@ -1,7 +1,7 @@
 ---
 molecule_scenarios:
   - scenario: "default"
-    ansible: ["previous", "current", "next"]
+    ansible: ["previous", "current", "development"]
     platforms:
       - "debian9"
       - "debian10"
