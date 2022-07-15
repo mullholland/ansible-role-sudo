@@ -2,7 +2,7 @@
 
 |GitHub|GitLab|
 |------|------|
-|[![github](https://github.com/mullholland/ansible-role-sudo/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-sudo/actions)|[![gitlab](https://gitlab.com/mullholland/ansible-role-sudo/badges/master/pipeline.svg)](https://gitlab.com/mullholland/ansible-role-sudo)|[![quality](https://img.shields.io/ansible/quality/unset)](https://galaxy.ansible.com/mullholland/sudo)|
+|[![github](https://github.com/mullholland/ansible-role-sudo/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-sudo/actions)|[![gitlab](https://gitlab.com/mullholland/ansible-role-sudo/badges/main/pipeline.svg)](https://gitlab.com/mullholland/ansible-role-sudo)|
 
 description
 
@@ -152,7 +152,6 @@ The minimum version of Ansible required is 2.10, tests have been done to:
 
 -   The previous versions.
 -   The current version.
--   The [devel](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-devel-from-github-with-pip) version.
 
 
 
