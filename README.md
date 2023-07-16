@@ -1,14 +1,72 @@
 # [sudo](#sudo)
 
-|GitHub|GitLab|
-|------|------|
-|[![github](https://github.com/mullholland/ansible-role-sudo/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-sudo/actions)|[![gitlab](https://gitlab.com/mullholland/ansible-role-sudo/badges/main/pipeline.svg)](https://gitlab.com/mullholland/ansible-role-sudo)|
+Install and configure sudo permissions
 
-description
+|GitHub|GitLab|Quality|Downloads|Version|
+|------|------|-------|---------|-------|
+|[![github](https://github.com/mullholland/ansible-role-sudo/workflows/Ansible%20Molecule/badge.svg)](https://github.com/mullholland/ansible-role-sudo/actions)|[![gitlab](https://gitlab.com/opensourceunicorn/ansible-role-sudo/badges/master/pipeline.svg)](https://gitlab.com/opensourceunicorn/ansible-role-sudo)|[![quality](https://img.shields.io/ansible/quality/58700)](https://galaxy.ansible.com/mullholland/sudo)|[![downloads](https://img.shields.io/ansible/role/d/58700)](https://galaxy.ansible.com/mullholland/sudo)|[![Version](https://img.shields.io/github/release/mullholland/ansible-role-sudo.svg)](https://github.com/mullholland/ansible-role-sudo/releases/)|
+
+## [Example Playbook](#example-playbook)
+
+This example is taken from [`molecule/default/converge.yml`](https://github.com/mullholland/ansible-role-sudo/blob/master/molecule/default/converge.yml) and is tested on each push, pull request and release.
+
+```yaml
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    sudo_defaults:
+      - 'env_reset'
+      - 'mail_badpass'
+      - 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
+
+    sudo_sudoers:
+      - name: user1
+        commands:
+          - hosts: "ALL"
+            as: "ALL:ALL"
+            command: "ALL"
+            nopasswd: false
+      - name: user2
+        commands:
+          - hosts: "ALL"
+            as: "ALL:ALL"
+            command: "ALL"
+            nopasswd: false
+
+    sudo_aliases:
+      - name: "GROUPONE"
+        type: "user"
+        alias: "user1, user2, user3"
+      - name: "SANDBOX"
+        type: "host"
+        alias: "devhost1, devhost2"
+      - name: "WEB"
+        type: "runas"
+        alias: "www-data, apache"
+      - name: "POWER"
+        type: "cmnd"
+        alias: "/sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/restart"
+
+    sudo_groups:
+      - name: sudogroup
+        commands:
+          - hosts: "ALL"
+            as: "ALL:ALL"
+            command: "ALL"
+            nopasswd: false
+
+  roles:
+    - role: "mullholland.sudo"
+```
+
 
 ## [Role Variables](#role-variables)
 
-These variables are set in `defaults/main.yml`:
+The default values for the variables are set in [`defaults/main.yml`](https://github.com/mullholland/ansible-role-sudo/blob/master/defaults/main.yml):
+
 ```yaml
 ---
 # package name
@@ -68,106 +126,44 @@ sudo_groups: []
 #   #   nopasswd: false  # optional => default "false"
 ```
 
+## [Requirements](#requirements)
 
-## [Example Playbook](#example-playbook)
-
-This example is taken from `molecule/default/converge.yml` and is tested on each push, pull request and release.
-```yaml
----
-- name: Converge
-  hosts: all
-  become: true
-  gather_facts: true
-  vars:
-    sudo_defaults:
-      - 'env_reset'
-      - 'mail_badpass'
-      - 'secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"'
-
-    sudo_sudoers:
-      - name: user1
-        commands:
-          - hosts: "ALL"
-            as: "ALL:ALL"
-            command: "ALL"
-            nopasswd: false
-      - name: user2
-        commands:
-          - hosts: "ALL"
-            as: "ALL:ALL"
-            command: "ALL"
-            nopasswd: false
-
-    sudo_aliases:
-      - name: "GROUPONE"
-        type: "user"
-        alias: "user1, user2, user3"
-      - name: "SANDBOX"
-        type: "host"
-        alias: "devhost1, devhost2"
-      - name: "WEB"
-        type: "runas"
-        alias: "www-data, apache"
-      - name: "POWER"
-        type: "cmnd"
-        alias: "/sbin/shutdown, /sbin/halt, /sbin/reboot, /sbin/restart"
-
-    sudo_groups:
-      - name: sudogroup
-        commands:
-          - hosts: "ALL"
-            as: "ALL:ALL"
-            command: "ALL"
-            nopasswd: false
-
-  roles:
-    - role: "mullholland.sudo"
-```
+- pip packages listed in [requirements.txt](https://github.com/mullholland/ansible-role-sudo/blob/master/requirements.txt).
 
 
+## [Context](#context)
 
+This role is a part of many compatible roles. Have a look at [the documentation of these roles](https://mullholland.net) for further information.
 
+Here is an overview of related roles:
+![dependencies](https://raw.githubusercontent.com/mullholland/ansible-role-sudo/png/requirements.png "Dependencies")
 
 ## [Compatibility](#compatibility)
 
 This role has been tested on these [container images](https://hub.docker.com/u/mullholland):
 
--   [debian9](https://hub.docker.com/r/mullholland/docker-molecule-debian9)
--   [debian10](https://hub.docker.com/r/mullholland/docker-molecule-debian10)
--   [debian11](https://hub.docker.com/r/mullholland/docker-molecule-debian11)
--   [ubuntu1804](https://hub.docker.com/r/mullholland/docker-molecule-ubuntu1804)
--   [ubuntu2004](https://hub.docker.com/r/mullholland/docker-molecule-ubuntu2004)
--   [ubuntu2204](https://hub.docker.com/r/mullholland/docker-molecule-ubuntu2204)
--   [centos7](https://hub.docker.com/r/mullholland/docker-molecule-centos7)
--   [centos-stream8](https://hub.docker.com/r/mullholland/docker-molecule-centos-stream8)
--   [centos-stream9](https://hub.docker.com/r/mullholland/docker-molecule-centos-stream9)
--   [ubi8](https://hub.docker.com/r/mullholland/docker-molecule-ubi8)
--   [fedora35](https://hub.docker.com/r/mullholland/docker-molecule-fedora35)
--   [fedora36](https://hub.docker.com/r/mullholland/docker-molecule-fedora36)
--   [amazonlinux](https://hub.docker.com/r/mullholland/docker-molecule-amazonlinux)
--   [rockylinux8](https://hub.docker.com/r/mullholland/docker-molecule-rockylinux8)
--   [almalinux8](https://hub.docker.com/r/mullholland/docker-molecule-almalinux8)
+|container|tags|
+|---------|----|
+|[EL](https://hub.docker.com/repository/docker/mullholland/docker-centos-systemd/general)|all|
+|[Amazon](https://hub.docker.com/repository/docker/mullholland/docker-amazonlinux-systemd/general)|Candidate|
+|[Fedora](https://hub.docker.com/repository/docker/mullholland/docker-fedora-systemd/general)|all|
+|[Ubuntu](https://hub.docker.com/repository/docker/mullholland/docker-ubuntu-systemd/general)|all|
+|[Debian](https://hub.docker.com/repository/docker/mullholland/docker-debian-systemd/general)|all|
 
 The minimum version of Ansible required is 2.10, tests have been done to:
 
--   The previous versions.
--   The current version.
-
-
-
-
+- The previous version.
+- The current version.
+- The development version.
 
 If you find issues, please register them in [GitHub](https://github.com/mullholland/ansible-role-sudo/issues)
 
 ## [License](#license)
 
-MIT
-
+[MIT](https://github.com/mullholland/ansible-role-sudo/blob/master/LICENSE).
 
 ## [Author Information](#author-information)
 
-[Mullholland](https://github.com/mullholland)
+[Mullholland](https://mullholland.net)
 
-## [Special Thanks](#special-thanks)
-
-Template inspired by [Robert de Bock](https://github.com/robertdebock)
+Please consider [sponsoring me](https://github.com/sponsors/mullholland).
