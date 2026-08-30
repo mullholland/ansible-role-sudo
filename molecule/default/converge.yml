@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  become: true
   gather_facts: true
   vars:
     sudo_defaults:
@@ -46,4 +45,4 @@
             nopasswd: false
 
   roles:
-    - role: "ansible-role-sudo"
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
