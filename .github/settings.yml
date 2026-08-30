@@ -5,4 +5,4 @@
 repository:
   description: Install and configure sudo permissions
   homepage: https://mullholland.net
-  topics: development, system, ansible, molecule, tox, playbook
+  topics: development, system, ansible, molecule, playbook
